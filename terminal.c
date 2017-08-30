@@ -6,17 +6,46 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <sys/utsname.h>
+static char *realify(char *a,char* x)
+{
+	int len=strlen(x);
+	int flag=1;
+	int i,j=0;
+	for(i=0;i<len;i++)
+	{
+		if((x[i]==' ' ||x[i]=='\t'))
+		{
+			i++;
+			flag=0;
+		}
+		else if(flag==0)
+		{
+			a[j]=' ';
+			j++;
+			flag=1;
+			a[j]=x[i];
+			j++;
+		}
+		else
+		{
+			a[j]=x[i];
+			j++;
+		}
+	}
+	a[j]='\0';
 
+}
 int main(void) {
 
 	struct utsname buffer;
 
 	errno = 0;
-	if (uname(&buffer) != 0) {
+	if (uname(&buffer) != 0)
+	{
 		perror("uname");
 		exit(EXIT_FAILURE);
 	}
-	char prompt[50],ch[50],pwdtrue[256],pwdtemp[256],toconc[256],fake_prompt[256],input[256];
+	char prompt[50],chin[256],ch[256],pwdtrue[256],pwdtemp[256],toconc[256],fake_prompt[256],input[256];
 	int len,lentemp;
 	strcpy(prompt,"<");
 	strcat(prompt,buffer.nodename);
@@ -25,7 +54,6 @@ int main(void) {
 	strcat(prompt,":");
 	getcwd(pwdtrue,sizeof(pwdtrue));
 	len=strlen(pwdtrue);
-	//printf("%s\n",pwdtrue);
 	while(1)
 	{
 		strcpy(fake_prompt,prompt);
@@ -53,16 +81,15 @@ int main(void) {
 		}
 		strcat(fake_prompt,">");
 		printf("%s ",fake_prompt);
-		scanf(" %[^\n]",ch);
+		scanf(" %[^\n]",chin);
+		realify(ch,chin);
 		if(ch[0]=='e' && ch[1]=='c' && ch[2]=='h' && ch[3]=='o')
 		{
 			const char s[2]=" ";
-	                char *token;
+	    char *token;
 			token = strtok(ch, s);
-	                token = strtok(NULL, s);
-                        
+	    token = strtok(NULL, s);
 			printf("%s\n",token);
-															                                                      
 		}
 		if(strcmp("pwd",ch)==0)
 		{
@@ -77,10 +104,8 @@ int main(void) {
 			if(chdir(token)==-1)
 				printf("%s directory not present\n",token);
 			else{
-				//strcpy(pwdtrue,token);
 				continue;
 			}
-
 		}
 		if(strcmp("exit",ch)==0)
 		{
