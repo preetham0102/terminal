@@ -36,8 +36,8 @@ int main(void) {
 			if(lentemp!=len)
 			{
 				//printf("hi\n");
-				strncpy(toconc,pwdtemp + len-1,lentemp-len);
-				printf("%s\n",toconc);
+				strncpy(toconc,pwdtemp + len,lentemp-len);
+				//printf("%s\n",toconc);
 				strcat(fake_prompt,"~");
 				strcat(fake_prompt,toconc);
 			}
@@ -53,10 +53,38 @@ int main(void) {
 		}
 		strcat(fake_prompt,">");
 		printf("%s ",fake_prompt);
-		scanf(" %[^\n]",ch); 
+		scanf(" %[^\n]",ch);
+		if(ch[0]=='e' && ch[1]=='c' && ch[2]=='h' && ch[3]=='o')
+		{
+			const char s[2]=" ";
+	                char *token;
+			token = strtok(ch, s);
+	                token = strtok(NULL, s);
+                        
+			printf("%s\n",token);
+															                                                      
+		}
 		if(strcmp("pwd",ch)==0)
 		{
 			printf("%s\n",pwdtemp);
+		}
+		if(ch[0]=='c' && ch[1]=='d')
+		{
+			const char s[2]=" ";
+			char *token;
+			token = strtok(ch, s);
+			token = strtok(NULL, s);
+			if(chdir(token)==-1)
+				printf("%s directory not present\n",token);
+			else{
+				//strcpy(pwdtrue,token);
+				continue;
+			}
+
+		}
+		if(strcmp("exit",ch)==0)
+		{
+			break;
 		}
 	}
 
