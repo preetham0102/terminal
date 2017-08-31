@@ -6,35 +6,37 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <sys/utsname.h>
-static char *realify(char *a,char* x)
-{
-	int len=strlen(x);
-	int flag=1;
-	int i,j=0;
-	for(i=0;i<len;i++)
-	{
-		if((x[i]==' ' ||x[i]=='\t'))
-		{
-			i++;
-			flag=0;
-		}
-		else if(flag==0)
-		{
-			a[j]=' ';
-			j++;
-			flag=1;
-			a[j]=x[i];
-			j++;
-		}
-		else
-		{
-			a[j]=x[i];
-			j++;
-		}
-	}
-	a[j]='\0';
+static void realify(char *a,char* x)
+  {
+  int len=strlen(x);
+  int flag=1;
+  int i,j=0;
+  for(i=0;i<len;i++)
+  {
+  if((x[i]==' ' ||x[i]=='\t'))
+  {
+  flag=0;
+  continue;
+  }
+  else if(flag==0)
+  {
+  a[j]=' ';
+  j++;
+  flag=1;
+  a[j]=x[i];
+  j++;
+  continue;
+  }
+  else
+  {
+  a[j]=x[i];
+  j++;
+  continue;
+  }
+  }
+  a[j]='\0';
 
-}
+  }
 int main(void) {
 
 	struct utsname buffer;
@@ -83,12 +85,13 @@ int main(void) {
 		printf("%s ",fake_prompt);
 		scanf(" %[^\n]",chin);
 		realify(ch,chin);
+		printf("%s\n",ch);
 		if(ch[0]=='e' && ch[1]=='c' && ch[2]=='h' && ch[3]=='o')
 		{
 			const char s[2]=" ";
-	    char *token;
+			char *token;
 			token = strtok(ch, s);
-	    token = strtok(NULL, s);
+			token = strtok(NULL, s);
 			printf("%s\n",token);
 		}
 		if(strcmp("pwd",ch)==0)
