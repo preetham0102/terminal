@@ -412,23 +412,23 @@ int main(void) {
 						p =getpid();
 						char sp[50];
 						sprintf(sp,"%d",p);
-						
+
 						pi = sp;
 					}
 					////FOR PINFO <PROC> ////
 					else if(toke!=NULL)
 					{
-						
+
 						pi=toke;
 					}
 
 					char pa[256]="/proc/";
-					
+
 					strcat(pa,pi);
 					strcat(pa,"/stat");
 
-					
-					FILE *in_f; 
+
+					FILE *in_f;
 					in_f= fopen(pa,"r");
 					char in_file[256];
 					fscanf(in_f,"%[^\n]",in_file);
@@ -445,11 +445,11 @@ int main(void) {
 					tk=strtok(NULL," ");
 
 					tk1=tk;
-					
+
 					tk=strtok(NULL," ");
 
 					tk2=tk;
-					
+
 					tk=strtok(NULL," ");
 					tk=strtok(NULL," ");
 					tk=strtok(NULL," ");
@@ -457,12 +457,12 @@ int main(void) {
 					tk=strtok(NULL," ");
 					tk=strtok(NULL," ");
 					tk8=tk;
-						
+
 					printf("pid -- %s\n",tk0);
 					printf("Process Status -- %s\n",tk2);
 					printf("Virtual Memory -- %s\n",tk8);
 					printf("Executable Path -- %s\n",tk1);
-					
+
 				}
 				//////////////////////////////////
 				///EXECUTION OF PWD//////////////
@@ -494,6 +494,7 @@ int main(void) {
 
 				{
 					char *a[1024];
+					int error=0;
 					char *token;
 					token = strtok(ch," ");
 					int z=0;
@@ -507,7 +508,9 @@ int main(void) {
 
 					}
 
-					execvp(*a,a);
+					error=execvp(*a,a);
+					if(error==-1)
+					printf("WRONG SYNTAX\n");
 
 				}
 
@@ -527,6 +530,7 @@ int main(void) {
 		{
 			if(pid==0)
 			{
+				int erroro=0;
 				char *a[1024];
 				ch[strlen(ch)-1]='\0';
 				char *token;
@@ -542,7 +546,12 @@ int main(void) {
 
 				}
 
-				execvp(*a,a);
+				erroro=execvp(*a,a);
+				if(erroro==-1)
+				{
+					printf("Wrong syntax\n");
+
+				}
 			}
 
 		}
